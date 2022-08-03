@@ -1,13 +1,9 @@
-# Sample Hardhat Project
+# Catalog Works
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This project demonstrates Catalog music nfts in an open & permissionless deployment environment of ThirdWeb.
 
-Try running some of the following tasks:
+Want to become the curator of your own Catalog?
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+### ThirdWeb release.
+
+- https://thirdweb.com/0xcfBf34d385EA2d5Eb947063b67eA226dcDA3DC38/Catalog/1.0.0
