@@ -144,16 +144,16 @@ contract Catalog is
         @return tokenId of the minted token 
         @dev mints a new token to msg.sender with a valid input creator address proof. Emits a ContentUpdated event to track contentURI/contentHash updates.
      */
-    function mint(TokenData memory _data, ContentData memory _content)
-        public
-        onlyOwner
-        returns (uint256)
-    {
+    function mint(
+        TokenData memory _data,
+        ContentData memory _content,
+        address _to
+    ) public onlyOwner returns (uint256) {
         require(_data.royaltyBPS < 10000, "royalty !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
 
-        _mint(msg.sender, tokenId);
+        _mint(_to, tokenId);
         tokenData[tokenId] = _data;
 
         // Emit event to track ContentURI
@@ -163,18 +163,19 @@ contract Catalog is
         return tokenId;
     }
 
-    function simpleMint() public {
+    function simpleMint(address _to) public {
         mint(
             TokenData(
                 "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
-                msg.sender,
-                msg.sender,
+                _to,
+                _to,
                 300
             ),
             ContentData(
                 "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
                 ""
-            )
+            ),
+            _to
         );
     }
 

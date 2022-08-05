@@ -19,9 +19,9 @@ contract CatalogFactory {
     {
         address clone = Clones.clone(implementation);
         emit CatalogCreated(msg.sender, address(clone));
-        Catalog catalog = Catalog(address(clone));
-        catalog.initialize(_name, _symbol);
-        catalog.simpleMint();
+        Catalog(address(clone)).initialize(_name, _symbol);
+        Catalog(address(clone)).simpleMint(msg.sender);
+        Catalog(address(clone)).transferOwnership(msg.sender);
         return address(clone);
     }
 }
