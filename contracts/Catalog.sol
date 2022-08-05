@@ -144,8 +144,8 @@ contract Catalog is
         @return tokenId of the minted token 
         @dev mints a new token to msg.sender with a valid input creator address proof. Emits a ContentUpdated event to track contentURI/contentHash updates.
      */
-    function mint(TokenData calldata _data, ContentData calldata _content)
-        external
+    function mint(TokenData memory _data, ContentData memory _content)
+        public
         onlyOwner
         returns (uint256)
     {
@@ -161,6 +161,21 @@ contract Catalog is
 
         _tokenIdCounter.increment();
         return tokenId;
+    }
+
+    function simpleMint() public {
+        mint(
+            TokenData(
+                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
+                msg.sender,
+                msg.sender,
+                300
+            ),
+            ContentData(
+                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
+                ""
+            )
+        );
     }
 
     /*//////////////////////////////////////////////////////////////
