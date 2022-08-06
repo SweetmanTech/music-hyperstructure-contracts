@@ -163,19 +163,18 @@ contract Catalog is
         return tokenId;
     }
 
-    function simpleMint(address _to) public {
+    // @param _ipfs URI of the music metadata (ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q)
+    function simpleMint(
+        address _recipient,
+        string memory _ipfs,
+        uint256 _askPrice,
+        address _sellerFundsRecipient,
+        uint16 _findersFeeBps
+    ) public {
         mint(
-            TokenData(
-                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
-                _to,
-                _to,
-                300
-            ),
-            ContentData(
-                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
-                ""
-            ),
-            _to
+            TokenData(_ipfs, _recipient, _recipient, 300),
+            ContentData(_ipfs, ""),
+            _recipient
         );
     }
 
