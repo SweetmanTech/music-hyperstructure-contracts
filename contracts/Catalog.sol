@@ -144,16 +144,16 @@ contract Catalog is
         @return tokenId of the minted token 
         @dev mints a new token to msg.sender with a valid input creator address proof. Emits a ContentUpdated event to track contentURI/contentHash updates.
      */
-    function mint(TokenData memory _data, ContentData memory _content)
-        public
-        onlyOwner
-        returns (uint256)
-    {
+    function mint(
+        TokenData memory _data,
+        ContentData memory _content,
+        address _to
+    ) public onlyOwner returns (uint256) {
         require(_data.royaltyBPS < 10000, "royalty !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
 
-        _mint(msg.sender, tokenId);
+        _mint(_to, tokenId);
         tokenData[tokenId] = _data;
 
         // Emit event to track ContentURI
@@ -163,18 +163,18 @@ contract Catalog is
         return tokenId;
     }
 
-    function simpleMint() public {
+    // @param _ipfs URI of the music metadata (ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q)
+    function simpleMint(
+        address _recipient,
+        string memory _ipfs,
+        uint256 _askPrice,
+        address _sellerFundsRecipient,
+        uint16 _findersFeeBps
+    ) public {
         mint(
-            TokenData(
-                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
-                msg.sender,
-                msg.sender,
-                300
-            ),
-            ContentData(
-                "ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q",
-                ""
-            )
+            TokenData(_ipfs, _recipient, _recipient, 300),
+            ContentData(_ipfs, ""),
+            _recipient
         );
     }
 
