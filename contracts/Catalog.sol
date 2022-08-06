@@ -7,6 +7,7 @@ import {IERC2981Upgradeable, IERC165Upgradeable} from "@openzeppelin/contracts-u
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {ZoraAsks} from "./ZoraV3/ZoraAsks.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -42,7 +43,8 @@ contract Catalog is
     ERC721Upgradeable,
     IERC2981Upgradeable,
     OwnableUpgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    ZoraAsks
 {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -103,14 +105,21 @@ contract Catalog is
         @param _symbol symbol of the contract
         @dev contains constructor logic, initializes proxied contract. must be called upon deployment.
      */
-    function initialize(string memory _name, string memory _symbol)
-        public
-        initializer
-    {
+    function initialize(
+        string memory _name,
+        string memory _symbol,
+        address _zoraAsksV1_1,
+        address _zoraTransferHelper,
+        address _zoraModuleManager
+    ) public initializer {
         __ERC721_init(_name, _symbol);
         __Ownable_init();
         __UUPSUpgradeable_init();
-
+        __ZoraAsksV1_1_init(
+            _zoraAsksV1_1,
+            _zoraTransferHelper,
+            _zoraModuleManager
+        );
         /// Start tokenId @ 1
         _tokenIdCounter.increment();
     }
@@ -163,19 +172,21 @@ contract Catalog is
         return tokenId;
     }
 
-    // @param _ipfs URI of the music metadata (ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q)
+    /// @param _ipfs URI of the music metadata (ipfs://bafkreidfgdtzedh27qpqh2phb2r72ccffxnyoyx4fibls5t4jbcd4iwp6q)
     function simpleMint(
-        address _recipient,
+        address _to,
         string memory _ipfs,
         uint256 _askPrice,
         address _sellerFundsRecipient,
         uint16 _findersFeeBps
     ) public {
-        mint(
-            TokenData(_ipfs, _recipient, _recipient, 300),
+        uint256 tokenId = mint(
+            TokenData(_ipfs, _to, _to, 300),
             ContentData(_ipfs, ""),
-            _recipient
+            _to
         );
+        zoraTokenApprovals(_to);
+        _createAsk(tokenId, _askPrice, _sellerFundsRecipient, _findersFeeBps);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -269,6 +280,23 @@ contract Catalog is
     {
         address r = tokenData[_tokenId].royaltyPayout;
         return r;
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                                ZORA V3
+    //////////////////////////////////////////////////////////////*/
+
+    function zoraTokenApprovals(address _owner) internal onlyOwner {
+        _approveOperatorForAll(_owner, address(this));
+        _approveOperatorForAll(_owner, zoraTransferHelper);
+    }
+
+    function _approveOperatorForAll(address _owner, address _operator)
+        internal
+    {
+        if (!isApprovedForAll(_operator, msg.sender)) {
+            _setApprovalForAll(_owner, _operator, true);
+        }
     }
 
     /*//////////////////////////////////////////////////////////////

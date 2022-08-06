@@ -8,15 +8,27 @@ import "./Platform.sol";
 contract CatalogFactory is Platform {
     /// Catalog Curation Seed
     address public implementation;
+    /// Zora Asks V1.1 Module Address
+    address public zoraAsksV1_1;
+    /// Zora Transfer Helper Address
+    address public zoraTransferHelper;
+    /// Zora Module Manager Address
+    address public zoraModuleManager;
 
     constructor(
         address _implementation,
         address _platformFeeRecipient,
-        uint256 _platformFee
+        uint256 _platformFee,
+        address _zoraAsksV1_1,
+        address _zoraTransferHelper,
+        address _zoraModuleManager
     ) {
         implementation = _implementation;
         platformFeeRecipient = _platformFeeRecipient;
         platformFee = _platformFee;
+        zoraAsksV1_1 = _zoraAsksV1_1;
+        zoraTransferHelper = _zoraTransferHelper;
+        zoraModuleManager = _zoraModuleManager;
     }
 
     /// Event fired when Catalog is created
@@ -37,7 +49,13 @@ contract CatalogFactory is Platform {
     ) public payable hasPlatformFee returns (address) {
         address clone = Clones.clone(implementation);
         emit CatalogCreated(msg.sender, address(clone));
-        Catalog(address(clone)).initialize(_curatorName, "MUSIC");
+        Catalog(address(clone)).initialize(
+            _curatorName,
+            "MUSIC",
+            zoraAsksV1_1,
+            zoraTransferHelper,
+            zoraModuleManager
+        );
         Catalog(address(clone)).simpleMint(
             msg.sender,
             _ipfs,
