@@ -1,13 +1,35 @@
-# Catalog Works
+# Music Hyperstructure
 
-This project demonstrates Catalog music nfts in an open & permissionless deployment environment of ThirdWeb.
+> Curation as a Public Good
 
-Want to become the curator of your own Catalog?
+- [Official submission](https://ethglobal.com/showcase/catalog-factory-8jx5g) for Zora Hackathon at ETH Global.
+- music nfts + Zora V3. All minted music nfts are automatically listed for sale on [Zora V3 Asks V1.1](https://docs.zora.co/docs/smart-contracts/modules/Asks/zora-v3-asks-v1.1)
+- decentralized music nfts - [music metadata standard](https://www.npmjs.com/package/onchain-music-metadata)
+- Ethereum, Polygon, Rinkeby & Mumbai (see below).
+
+This project demonstrates Curated music nfts in an open & permissionless deployment environment.
+
+## Deployments
+
+- Ethereum mainnet: [0x847058B7f0df8F8d76c03e3af853CB17284DcF75](https://etherscan.io/address/0x847058B7f0df8F8d76c03e3af853CB17284DcF75#code)
+- Polygon mainnet: [0xf79a182E8D10f696B54AfE9d86dF5f7E34aa1F88](https://polygonscan.com/address/0xf79a182E8D10f696B54AfE9d86dF5f7E34aa1F88#code)
+- Rinkeby testnet: [0x4270B8aE2F332615a4DdD09788BC60d3cFde0Ea4](https://rinkeby.etherscan.io/address/0x4270B8aE2F332615a4DdD09788BC60d3cFde0Ea4#code)
+- Mumbai testnet: [0x83439E53bfcD6398B9b315f96a5dB689B82bfa0A](https://mumbai.polygonscan.com/address/0x83439E53bfcD6398B9b315f96a5dB689B82bfa0A#code)
+
+## The Code
+
+- UI (JavaScript / NextJS) - [music-hyperstructure-UI](https://github.com/SweetmanTech/music-hyperstructure-ui)
+- Smart Contracts - [music-hyperstructure-contracts](https://github.com/SweetmanTech/music-hyperstructure-contracts)
+
+Want to become the curator of your own Music nft collection?
 
 ### ThirdWeb release.
 
-Catalog Factory:
+Curation Factory:
 
-- https://thirdweb.com/mumbai/0x613075f38C73909245785e5d741c7B7dEabf1867/
-  Catalog (implementation):
-- https://thirdweb.com/0xcfBf34d385EA2d5Eb947063b67eA226dcDA3DC38/Catalog/1.0.0
+- Implementation: TODO: update w/o referencing other platforms.
+- Factory: TODO: update w/o referencing other platforms.
+
+## License
+
+This app is open-source and licensed under the MIT license. For more details, check the [License file](LICENSE).
